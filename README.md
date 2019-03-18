@@ -1,5 +1,8 @@
+**deviceparser.py** is a tool that I wrote to help a user parse the rich information available the **devices_data.txt** file. This file contains the specs of all devices from [GSMArena](https://www.gsmarena.com/) stored in the JSON format. I created this file by building a webcrawler from scratch in Python, using BeautifulSoup, which programmatically crawled across 9500+ webpages to assemble this information. You can learn more how to build you own web crawler from the first tutorial in my **Truly End-to-End Machine Learning** series, linked [here](https://github.com/vigvisw/end2endml). 
+
 
 ### Instructions For Using deviceparser.py
+All full walkthrough of this process can be found in deviceparser_example.ipynb.
 
 1. Download *deviceparser.py* and move it to [Python's working directory](https://stackoverflow.com/questions/17359698/how-to-get-the-current-working-directory-using-python-3/17361545).
 2. Import the module into your IDE.
@@ -15,4 +18,3 @@
 2. The parsing function **must** follow the name format 'parse_' + spec_name. For example, if you are trying to parse the feature **platform_os** as seen in the columns of the *Skeleton Dataset*, the parsing function which you define must be be named **parse_platform_os**.
 3. The return value of the parsing function **must** be a dictionary of the format **{*new_feature_name*:parsed_value,.........}**. The keys of *new_feature_name* will be used used to create new parsed feature column. **Note** that the **new_feature_name**(s) in the above dictionary will replace the input feature in the **all_features_dict**.
 4. Each parsing function that you want to use must be first defined and then passed as a list (or use the function object itself, if using only one) to **ParsingFunction.add_new_parsers()** as an argument.
-
