@@ -7,16 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1nJuRGlXvCWjgxv-qTCSLM4NOTJNIbs0a
 """
 
-import json
-import re 
-import numpy as np
-import pandas as pd
-
 class ParsingFunctions:
   '''A class for housing all the parsing function which will be used on device specs data'''
   
   # a list to keep track of which features have parsing functions
   allow_parsing = []
+  # a set to keep track of parsed features
+  parsed_features = set()
   
   def parse_spec(self, spec_, value):
     '''A function for parsing each of the spec to get the information we want
@@ -34,6 +31,7 @@ class ParsingFunctions:
         setattr(self, feature_name, feature_value)
         self.set_all_features(feature_name)
         self.create_feature(feature_name)
+        ParsingFunctions.add_to_parsed_features(feature_name)
     # if spec_ in not in the allow_parsing list, simply set the value current value of the spec
     else:
       setattr(self, spec_, value)
@@ -76,6 +74,11 @@ class ParsingFunctions:
     '''A function for clearing current parsers'''
     cls.allow_parsing = []
     print('All exisiting parsing functions have been cleared!')
+    
+  @classmethod
+  def add_to_parsed_features(cls, feature_name):
+    '''A function for keeping track of which features were parsed'''
+    cls.parsed_features.add(feature_name)
     
 
 class FeatureGen(ParsingFunctions):
