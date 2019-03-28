@@ -118,7 +118,9 @@ class MyParsers:
   def parse_body_dimensions(spec_value):
     '''A function for parsing the body dimensions
 
-       Returns the value of each dimension as a np.float64. Returns np.NaN if dimensions not found
+       -Returns the value of each dimension as a np.float64. Returns np.NaN if dimensions not found
+       -All dimensions are in mm 
+       -Volume is also returned as np.float64
     '''
     dimensions_pattern = re.compile('((?:\d+\.?\d*[\sx]+){3})mm')
     float_pattern = re.compile('\d+\.?\d*')
@@ -132,7 +134,8 @@ class MyParsers:
       x = np.float64(each_dim[0])
       y = np.float64(each_dim[1])
       z = np.float64(each_dim[2])
-      return {'body_x':x, 'body_y':y, 'body_z':z}
+      volume = x * y * z
+      return {'body_x':x, 'body_y':y, 'body_z':z, 'volume_mm3':volume}
 
 
   # different types of displays noticed
@@ -214,3 +217,14 @@ class MyParsers:
       return {'platform_chipset':spec_value, 'platform_chipset_gate_width':np.float64(gate_width[0])}
     else:
       return {'platform_chipset':spec_value, 'platform_chipset_gate_width':np.NaN}
+
+  def parse_misc_price(spec_value):
+    '''A function for parsing the price ofa device
+       Returns a np.float64 object corresponding to price in EUR
+    '''
+    price_pattern = re.compile('(\d+\.?\d?)')
+    price = re.findall(price_pattern, spec_value)
+    if not price:
+      return {'misc_price':np.NaN}
+    else:
+      return {'misc_price':np.float64(price[0])}
